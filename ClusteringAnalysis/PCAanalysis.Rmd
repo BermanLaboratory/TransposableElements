@@ -1,0 +1,20 @@
+---
+title: "Principle Component Analysis of Transposable Element Expression"
+output: html_notebook
+---
+
+# Dependancies
+
+```{r}
+library('dplyr')
+library('M3C')
+library('factoextra')
+library('dplyr')
+```
+
+# Data input
+
+```{r}
+
+```
+
