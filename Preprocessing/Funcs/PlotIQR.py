@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-def plotiqr(df):
+def plotiqr(df, genete):
 
     iqr = []
 
@@ -18,10 +18,14 @@ def plotiqr(df):
     Q3 = np.quantile(IQR, 0.75)
     Q1 = np.quantile(IQR, 0.25)
     IQRoutlier = Q3 - Q1
-    outlierCutoff = Q3 + (IQRoutlier * 1.5)
+    outlierCutoff = Q3 + (IQRoutlier * 2.2)
 
     plt.axhline(outlierCutoff, c='r', linestyle='--')
     plt.scatter(range(1, len(iqr) + 1), iqr)
+    plt.title(f'UROMOL {genete} Transcriptomic Data IQR assessment')
+    plt.ylabel('Inter-Quartile Range')
+    plt.xlabel('Ordered UROMOL samples')
+
     plt.show()
 
     return IQR[IQR > outlierCutoff].dropna()
