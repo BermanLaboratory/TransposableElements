@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 
-def GenerateBoxplot(df, saveloc):
+def GenerateBoxplot(df, genete, saveloc):
 
     # This function standardizes and normalizes '-omic' expression datasets to evaluate outliers and batch effects
     # Inputs
@@ -12,10 +12,10 @@ def GenerateBoxplot(df, saveloc):
     # boxplot saved as a png file
 
     dflog = np.log(df + 1)
-    TEZeroCentred = dflog - dflog.mean()
+    zeroc = np.subtract(np.transpose(dflog), dflog.mean(axis=1))
     figure(figsize=(20, 10), dpi=250)
-    plt.boxplot(TEZeroCentred, meanline=True)
-    plt.title('UROMOL Transcriptomic Data (log Transformed, Zero Centered)')
+    plt.boxplot(zeroc, meanline=True)
+    plt.title(f'UROMOL {genete} Transcriptomic Data (log Transformed, Zero Centered)')
     plt.ylabel('Transcriptomic Expression log2(x)')
     plt.xlabel('Ordered UROMOL samples')
     plt.xticks([])
