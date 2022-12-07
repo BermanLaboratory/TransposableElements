@@ -11,8 +11,7 @@ def GenerateBoxplot(df, genete, saveloc):
     # Outputs
     # boxplot saved as a png file
 
-    dflog = np.log(df + 1)
-    zeroc = np.subtract(np.transpose(dflog), dflog.mean(axis=1))
+    zeroc = np.subtract(np.transpose(df), df.mean(axis=1))
     figure(figsize=(20, 10), dpi=250)
     plt.boxplot(zeroc, meanline=True)
     plt.title(f'UROMOL {genete} Transcriptomic Data (log Transformed, Zero Centered)')

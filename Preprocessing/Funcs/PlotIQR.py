@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from Preprocessing.Funcs.ComputeAlphaOutliers import computealpha
 
 
 def plotiqr(df, genete):
@@ -18,9 +19,11 @@ def plotiqr(df, genete):
     Q3 = np.quantile(IQR, 0.75)
     Q1 = np.quantile(IQR, 0.25)
     IQRoutlier = Q3 - Q1
-    outlierCutoff = Q3 + (IQRoutlier * 2.2)
+    highoutlierCutoff = Q3 + (IQRoutlier * computealpha(df.shape[1]))
+    lowoutlierCutoff = Q1 - (IQRoutlier * computealpha(df.shape[1]))
 
-    plt.axhline(outlierCutoff, c='r', linestyle='--')
+    plt.axhline(highoutlierCutoff, c='r', linestyle='--')
+    plt.axhline(lowoutlierCutoff, c='r', linestyle='--')
     plt.scatter(range(1, len(iqr) + 1), iqr)
     plt.title(f'UROMOL {genete} Transcriptomic Data IQR assessment')
     plt.ylabel('Inter-Quartile Range')
@@ -28,4 +31,6 @@ def plotiqr(df, genete):
 
     plt.show()
 
-    return IQR[IQR > outlierCutoff].dropna()
+    outlierdf = IQR[IQR > highoutlierCutoff].dropna() + IQR[IQR < lowoutlierCutoff].dropna()
+
+    return outlierdf.index.values.tolist()
